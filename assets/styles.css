@@ -192,6 +192,13 @@
     background: #839496;
 }
 
+#datatable.dash-table-container .dash-spreadsheet-container {
+    overflow: unset !important;
+}
+
+#datatable.dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner.dash-freeze-top {
+    overflow: visible !important;
+}
 
 /* media queries */
 

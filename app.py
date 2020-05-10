@@ -43,6 +43,7 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets,
                 )
 
 app.config.suppress_callback_exceptions = True
+app.css.config.serve_locally = True
 
 app.title = 'Trich.ai Covid Monitor'
 
@@ -458,7 +459,8 @@ def draw_global_graph(df_confirmed_total, df_deaths_total, df_recovered_total, g
                              fill='tozeroy',))
 
     fig.update_layout(
-        title="testets",
+        title="General Cases",
+        title_x=.5,
         hovermode='x',
         font=dict(
             family="Courier New, monospace",
@@ -775,7 +777,7 @@ def display_main_stats():
 
     ],
         style=divBorderStyle_disp_first
-    ), lg={"size": 4, "offset": 0}, md={"size": 6, "offset": 3}, sm=12, width=12
+    ), lg={"size": 4, "offset": 0}, md={"size": 6, "offset": 3}, sm={"size": 10, "offset": 1}, width=12
     )
     total_deaths = dbc.Col(html.Div([
         html.H4(children='Total Deaths: ',
@@ -1336,19 +1338,19 @@ custom_graphs = dbc.Row(
 
 
 app.layout = html.Div([
-    sidebar,
-    dbc.Container([
-        navbar(appname="Corona Virus Monitor",
-               logo="assets/fundo_transp-b.png", height="40px"),
-        # collase_buttons,
-        main_text_structure(),
-        display_main_stats(),
-        title_application_display,
-        html.Div(id="main_div"),
-        # modal
+    html.Div([sidebar,
+              dbc.Container([
+                  navbar(appname="Corona Virus Monitor",
+                         logo="assets/fundo_transp-b.png", height="40px"),
+                  # collase_buttons,
+                  main_text_structure(),
+                  display_main_stats(),
+                  title_application_display,
+                  html.Div(id="main_div"),
+                  # modal
 
-    ], style={"maxWidth": "1140px"})
-
+              ], style={"maxWidth": "1140px"})
+              ])
 ])
 
 charts = dbc.Row([
