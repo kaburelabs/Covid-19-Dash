@@ -739,6 +739,13 @@ def navbar(logo="/assets/logo-placeholder.png", height="35px",  appname="PlaceHo
     return navbar
 
 
+divBorderStyle_disp_first = {
+    'backgroundColor': '#393939',
+    'borderRadius': '12px',
+    'lineHeight': 0.9,
+    "padding": "18px 24px", "marginBottom": "30px"}
+
+
 def display_main_stats():
 
     total_cases = dbc.Col(html.Div([
@@ -754,16 +761,21 @@ def display_main_stats():
                       'color': colors['confirmed_text'],
                       'fontSize': 30}
                ),
-        html.P('Past 24hrs increase: +' + f"{df_confirmed_total[-1] - df_confirmed_total[-2]:,d}"
+        html.P('Increase: +' + f"{df_confirmed_total[-1] - df_confirmed_total[-2]:,d}"
                + ' (' + str(round(((df_confirmed_total[-1] - df_confirmed_total[-2])/df_confirmed_total[-1])*100, 2)) + '%)',
+               id="total-cases-display",
                style={
                    'textAlign': 'center',
                    'color': colors['confirmed_text'],
                }
                ),
+        dbc.Tooltip(
+            "Increase on the Past 24hrs", style={"fontSize": "15px"},
+            target="total-cases-display"),
+
     ],
-        style=divBorderStyle
-    )
+        style=divBorderStyle_disp_first
+    ), lg={"size": 4, "offset": 0}, md={"size": 6, "offset": 3}, sm=12, width=12
     )
     total_deaths = dbc.Col(html.Div([
         html.H4(children='Total Deaths: ',
@@ -785,7 +797,8 @@ def display_main_stats():
             'color': colors['deaths_text']}
         )
 
-    ], style=divBorderStyle)
+    ], style=divBorderStyle
+    ), lg=4, md=6, sm=12, width=12
     )
 
     total_recovered = dbc.Col(html.Div([
@@ -810,7 +823,8 @@ def display_main_stats():
         }
         ),
     ],
-        style=divBorderStyle)
+        style=divBorderStyle
+    ), lg=4, md=6, sm=12, width=12
     )
 
     display = dbc.Row([total_cases, total_deaths, total_recovered], style={
@@ -940,28 +954,7 @@ display_highest = dbc.Row([
         ),
         html.P(confirm_cases),
     ],
-        width=3  # className="three columns",
-    ),
-    dbc.Col([
-        html.P([html.Span('Single day highest cases: ',
-                          ),
-                html.Br(),
-                html.Span(' + past 24hrs',
-                          style={'color': colors['confirmed_text'],
-                                 'fontWeight': 'bold', 'fontSize': 14, })
-                ],
-               style={
-            'textAlign': 'center',
-            'color': 'rgb(200,200,200)',
-            'fontsize': 12,
-            'backgroundColor': '#3B5998',
-            'borderRadius': '12px',
-            'fontSize': 17, }
-        ),
-
-        html.P(confirm_cases_24hrs),
-    ],
-        width=3  # className="three columns",
+        width=6, lg=3  # className="three columns",
     ),
 
     dbc.Col([
@@ -983,8 +976,31 @@ display_highest = dbc.Row([
 
             html.P(deaths_cases),
             ],
-            width=3  # className="three columns",
+            width=6, lg=3  # className="three columns",
             ),
+
+    dbc.Col([
+        html.P([html.Span('Single day highest cases: ',
+                          ),
+                html.Br(),
+                html.Span(' + past 24hrs',
+                          style={'color': colors['confirmed_text'],
+                                 'fontWeight': 'bold', 'fontSize': 14, })
+                ],
+               style={
+            'textAlign': 'center',
+            'color': 'rgb(200,200,200)',
+            'fontsize': 12,
+            'backgroundColor': '#3B5998',
+            'borderRadius': '12px',
+            'fontSize': 17, }
+        ),
+
+        html.P(confirm_cases_24hrs),
+    ],
+        width=6, lg=3  # className="three columns",
+    ),
+
     dbc.Col([
 
             html.P([html.Span('Single day highest mortality: ',
@@ -1005,7 +1021,7 @@ display_highest = dbc.Row([
 
             html.P(deaths_cases_24hrs),
             ],
-            width=3  # className="three columns",
+            width=6, lg=3  # className="three columns",
             ),
 ], style={
     'textAlign': 'left',
@@ -1069,7 +1085,7 @@ charts = dbc.Row([
     dbc.Col(
         dcc.Graph(
             id='high10-graph'
-        ), width=6, md=6
+        ), width=12, md=6
     )
 ])
 
@@ -1163,7 +1179,7 @@ sidebar = html.Div(
                                "width": "80%", 'margin': '0 auto 16px'}),
                     dbc.Button("Chart Distribution", id="btn_distribution", color="info",  style={
                                "width": "80%", 'margin': '0 auto 16px'}),
-                    dbc.Button("Tabbles and Download", id="btn_tabs", color="info", style={
+                    dbc.Button("Tables & Map", id="btn_tabs", color="info", style={
                                "width": "80%", 'margin': '0 auto 16px'}),
                     dbc.Button("Forecasting", id="btn_maps",  color="info", style={
                                "width": "80%", 'margin': '0 auto 16px'}),
@@ -1339,12 +1355,12 @@ charts = dbc.Row([
     dbc.Col(
         dcc.Graph(
             id='global-graph'
-        ), width=6
+        ), width=12, md=6, lg=6
     ),
     dbc.Col(
         dcc.Graph(
             id='high10-graph'
-        ), width=6)
+        ), width=12, md=6, lg=6)
 ])
 
 forecast = html.Div([
@@ -1422,6 +1438,7 @@ def update_graph(graph_type):
 def update_graph_high10(graph_high10_type):
 
     fig_high10 = draw_highest_10(
+
         df_confirmed_t_stack, df_deaths_t_stack, graph_high10_type)
 
     return fig_high10
