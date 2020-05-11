@@ -16,6 +16,51 @@
 
 /* colors */
 
+colors = {
+    'background': '#2D2D2D',
+    'text': '#E1E2E5',
+    'figure_text': '#ffffff',
+    'confirmed_text': 'rgb(117, 190, 255)',
+    'deaths_text': 'rgb(225, 116, 108)',
+    'recovered_text': 'rgb(123, 194, 145)',
+    'highest_case_bg': '#393939',
+
+}
+
+.bgGrey {
+    background:#2D2D2D;
+}
+
+.textColor {
+    color:#E1E2E5;
+}
+
+.ConfText{
+    color:rgb(117, 190, 255);
+}
+
+.DeathText{
+    color:rgb(225, 116, 108);
+}
+
+.RecovText{
+    color:rgb(123, 194, 145);
+}
+
+.DivBorder {
+    background-color: #393939;
+    border-radius: 12px;
+    line-height: 0.9;
+    padding: 18px 0px;
+}
+
+.boxBorder {
+    border-color: #393939;
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 2;
+}
+
 .white {
     color: white;
 }

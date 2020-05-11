@@ -511,6 +511,7 @@ def draw_highest_10(df_confirmed_t_stack, df_deaths_t_stack, graphHigh10_type='C
 
     fig.update_layout(
         title="World Total Corona Cases ",
+        title_x=.5,
         xaxis_title=None,
         yaxis_title=None,
         font=dict(
@@ -532,7 +533,7 @@ def draw_highest_10(df_confirmed_t_stack, df_deaths_t_stack, graphHigh10_type='C
         plot_bgcolor=colors['background'],
         margin=dict(l=0,
                     r=0,
-                    t=0,
+                    t=65,
                     b=0
                     ),
         height=350,
@@ -543,6 +544,7 @@ def draw_highest_10(df_confirmed_t_stack, df_deaths_t_stack, graphHigh10_type='C
 
     # fig.update_xaxes(zeroline=True, zerolinewidth=2, zerolinecolor='#3A3A3A')
     fig.update_yaxes(zeroline=True, zerolinewidth=2, zerolinecolor='#3A3A3A')
+
     return fig
 
 
@@ -777,7 +779,7 @@ def display_main_stats():
 
     ],
         style=divBorderStyle_disp_first
-    ), lg={"size": 4, "offset": 0}, md={"size": 6, "offset": 3}, sm={"size": 10, "offset": 1}, width=12
+    ), lg={"size": 4, "offset": 0}, md={"size": 6, "offset": 3}, sm={"size": 2, "offset": 0}
     )
     total_deaths = dbc.Col(html.Div([
         html.H4(children='Total Deaths: ',
@@ -1080,14 +1082,16 @@ inputs = dbc.FormGroup([
 
 charts = dbc.Row([
     dbc.Col(
-        dcc.Graph(
-            id='global-graph'
-        ), width=12, md=6
+        dcc.Loading(
+            dcc.Graph(
+                id='global-graph'
+            ), type="graph"), width=12, sm=12, lg=6
     ),
     dbc.Col(
-        dcc.Graph(
-            id='high10-graph'
-        ), width=12, md=6
+        dcc.Loading(
+            dcc.Graph(
+                id='high10-graph'
+            ), type="graph"), width=12, sm=12, lg=6
     )
 ])
 
@@ -1291,13 +1295,13 @@ table_values = dbc.Row([
                 id='datatable'
             ),
         ],
-        width=12, md=12, xl=6, className="bottom32"
+        width=12, md=12, lg=6, xl=6, className="bottom32"
     ),
     dbc.Col(
         [
             dcc.Graph(id='map-graph-group'
                       )
-        ], width=12, md=12, xl=6, className="bottom32"
+        ], width=12, md=12, lg=6, xl=6, className="bottom32"
     )
 ])
 
@@ -1346,8 +1350,9 @@ app.layout = html.Div([
                   main_text_structure(),
                   display_main_stats(),
                   title_application_display,
-                  html.Div(id="main_div"),
-                  # modal
+                  dcc.Loading(
+                      html.Div(id="main_div"), type="cube")
+                  # modal)
 
               ], style={"maxWidth": "1140px"})
               ])
@@ -1357,12 +1362,12 @@ charts = dbc.Row([
     dbc.Col(
         dcc.Graph(
             id='global-graph'
-        ), width=12, md=6, lg=6
+        ), sm=12, width=6, md=6, lg=6
     ),
     dbc.Col(
         dcc.Graph(
             id='high10-graph'
-        ), width=12, md=6, lg=6)
+        ), sm=12, width=6, md=6, lg=6)
 ])
 
 forecast = html.Div([
@@ -1455,7 +1460,7 @@ def update_graph_high10(graph_high10_type):
      # Input('graph-line','value')
      ])
 def map_selection(data, selected_rows):
-    print("MAPA MULTIPLO", data, selected_rows)
+    # print("MAPA MULTIPLO", data, selected_rows)
     aux = pd.DataFrame(data)
     temp_df = aux.iloc[selected_rows, :]
     zoom = 1
@@ -1484,7 +1489,7 @@ def map_selection(dropdown_country):
     # print("MAPA UNICO", dropdown_country)
     var_province = [{'label': i, 'value': i}
                     for i in map_data[map_data["Country/Region"] == dropdown_country]["Province/State"].unique()]
-    print(var_province)
+    # print(var_province)
     return var_province
 
 
@@ -1492,7 +1497,7 @@ def map_selection(dropdown_country):
     Output('map-graph', 'figure'),
     [Input('dropdown-country', 'value')])
 def map_selection(dropdown_country):
-    print("MAPA UNICO", dropdown_country)
+    # print("MAPA UNICO", dropdown_country)
 
     # aux = pd.DataFrame(data)
     # temp_df = aux.iloc[selected_rows, :]
