@@ -30,7 +30,8 @@ import plotly.express as px
 #####################################################################################################################################
 external_stylesheets = [dbc.themes.SOLAR,
                         'https://codepen.io/unicorndy/pen/GRJXrvP.css',
-                        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css']
+                        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',
+                        "https://fonts.googleapis.com/css2?family=Squada+One&display=swap"]
 
 # #Insert your javascript here. In this example, addthis.com has been added to the web app for people to share their webpage
 # external_scripts = [{
@@ -39,13 +40,25 @@ external_stylesheets = [dbc.themes.SOLAR,
 #     }]
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets,
+                meta_tags=[
+
+                    {
+
+                        "name": "viewport",
+
+                        "content": "width=device-width, initial-scale=1, maximum-scale=1",
+
+                    },
+
+                ],
                 # external_scripts = external_scripts
                 )
 
 app.config.suppress_callback_exceptions = True
+
 app.css.config.serve_locally = True
 
-app.title = 'Trich.ai Covid Monitor'
+app.title = 'trich.ai Covid Monitor'
 
 # for heroku to run correctly
 server = app.server
@@ -341,26 +354,26 @@ def high_cases(countryname, total, single, color_word='#63b6ff', confirmed_total
 
     if deaths:
         percent = (total/confirmed_total)*100
-        return html.P([html.Span(countryname + ' | ' + f"{int(total):,d}",
-                                 style={'backgroundColor': colors['highest_case_bg'], 'borderRadius': '6px', }),
-                       html.Span(' +' + f"{int(single):,d}",
-                                 style={'color': color_word, 'margin': 2, 'fontWeight': 'bold', 'fontSize': 14, }),
-                       html.Span(f' ({percent:.2f}%)',
-                                 style={'color': color_word, 'margin': 2, 'fontWeight': 'bold', 'fontSize': 14, }),
-                       ],
-                      style={
+        return html.Div([html.Span(countryname + ' | ' + f"{int(total):,d}",
+                                   style={'backgroundColor': colors['highest_case_bg'], 'borderRadius': '6px', }),
+                         html.Span(' +' + f"{int(single):,d}",
+                                   style={'color': color_word, 'margin': 2, 'fontWeight': 'bold', 'fontSize': 14, }),
+                         html.Span(f' ({percent:.2f}%)',
+                                   style={'color': color_word, 'margin': 2, 'fontWeight': 'bold', 'fontSize': 14, }),
+                         ],
+                        style={
             'textAlign': 'center',
             'color': 'rgb(200,200,200)',
             'fontsize': 12,
         }
         )
 
-    return html.P([html.Span(countryname + ' | ' + f"{int(total):,d}",
-                             style={'backgroundColor': colors['highest_case_bg'], 'borderRadius': '6px', }),
-                   html.Span(' +' + f"{int(single):,d}",
-                             style={'color': color_word, 'margin': 2, 'fontWeight': 'bold', 'fontSize': 14, }),
-                   ],
-                  style={
+    return html.Div([html.Span(countryname + ' | ' + f"{int(total):,d}",
+                               style={'backgroundColor': colors['highest_case_bg'], 'borderRadius': '6px', }),
+                     html.Span(' +' + f"{int(single):,d}",
+                               style={'color': color_word, 'margin': 2, 'fontWeight': 'bold', 'fontSize': 14, }),
+                     ],
+                    style={
         'textAlign': 'center',
         'color': 'rgb(200,200,200)',
         'fontsize': 12,
@@ -718,23 +731,24 @@ divBorderStyle_nav = {
 def navbar(logo="/assets/logo-placeholder.png", height="35px",  appname="PlaceHolder Name"):
 
     navbar = dbc.Navbar(
-        [
+        [sidebar,
             dbc.Col(html.A(
                 # Use row and col to control vertical alignment of logo / brand
                 dbc.Row(
                     [
                         dbc.Col(
-                            html.Img(src=logo, height=height)),
+                            html.Div("trich.ai", className="trich-navbar white", style={"fontSize": "2.5em"}))
+                        # html.Img(src=logo, height=height)),
                     ],
                     align="center",
                     # no_gutters=True,
                 ),
                 href="https://trich.ai",
-            ), width=7),
-            dbc.Col(dbc.NavbarBrand(appname, className="ml-4 right title",
-                                    style={'color': '#ffffffbf', "fontSize": "22px"}), width=5),
-        ],
-        color="#404040",  # className="bottom16",
+            ), width={"offset": 1, "size": 5}),
+            dbc.Col(dbc.NavbarBrand(
+                appname, className="ml-4 font-sm white", style={"color": "white"}), width={"size": 6, "offset": 2, "order": "last"}),
+         ],
+        color="#393939", className="bottom32",  # className="bottom16",
         # style={'height': '100px', "borderBottom":".5px solid lightgrey", "padding":"18px 0px"}
         style=divBorderStyle_nav
         # dark=True,
@@ -753,95 +767,73 @@ divBorderStyle_disp_first = {
 def display_main_stats():
 
     total_cases = dbc.Col(html.Div([
-        html.H4(children='Total Cases: ',
-                style={
-                    'textAlign': 'center',
-                    'color': colors['confirmed_text'],
-                    'fontWeight':"bold"
-                }
-                ),
-        html.P(f"{df_confirmed_total[-1]:,d}",
-               style={'textAlign': 'center',
-                      'color': colors['confirmed_text'],
-                      'fontSize': 30}
-               ),
-        html.P('Increase: +' + f"{df_confirmed_total[-1] - df_confirmed_total[-2]:,d}"
-               + ' (' + str(round(((df_confirmed_total[-1] - df_confirmed_total[-2])/df_confirmed_total[-1])*100, 2)) + '%)',
-               id="total-cases-display",
-               style={
-                   'textAlign': 'center',
-                   'color': colors['confirmed_text'],
-               }
-               ),
+        html.Div(children='Total Cases: ',
+                 className="text-center text-conf bold font-md"
+                 ),
+        html.Div(f"{df_confirmed_total[-1]:,d}",
+                 className="text-center text-conf font-xl"
+                 ),
+        html.Div('Increase: +' + f"{df_confirmed_total[-1] - df_confirmed_total[-2]:,d}"
+                 + ' (' + str(round(((df_confirmed_total[-1] - df_confirmed_total[-2])/df_confirmed_total[-1])*100, 2)) + '%)',
+                 id="total-cases-display",
+                 className="text-center text-conf font-md"
+                 ),
         dbc.Tooltip(
             "Increase on the Past 24hrs", style={"fontSize": "15px"},
             target="total-cases-display"),
 
-    ],
-        style=divBorderStyle_disp_first
-    ), lg={"size": 4, "offset": 0}, md={"size": 6, "offset": 3}, sm={"size": 2, "offset": 0}
+    ], className="border-div"
+    ),
+        lg={"size": 4, "offset": 0},
+        md={"size": 6, "offset": 3},
+        sm={"size": 8, "offset": 2},
+        xs={"size": 10, "offset": 1},
+        style={"marginBottom": "32px"}
     )
-    total_deaths = dbc.Col(html.Div([
-        html.H4(children='Total Deaths: ',
-                style={
-                    'textAlign': 'center',
-                    'color': colors['deaths_text'],
-                    'fontWeight':"bold"
-                }
-                ),
-        html.P(f"{df_deaths_total[-1]:,d}",
-               style={
-                   'textAlign': 'center',
-                   'color': colors['deaths_text'],
-                   'fontSize': 30}
-               ),
-        html.P('Mortality Rate: ' + str(round(df_deaths_total[-1]/df_confirmed_total[-1] * 100, 3)) + '%',
-               style={
-            'textAlign': 'center',
-            'color': colors['deaths_text']}
-        )
 
-    ], style=divBorderStyle
-    ), lg=4, md=6, sm=12, width=12
+    total_deaths = dbc.Col(html.Div([
+        html.Div(children='Total Deaths: ', className="text-center text-death bold font-md"
+                 ),
+        html.Div(f"{df_deaths_total[-1]:,d}",
+                 className="text-center text-death font-xl"
+                 ),
+        html.Div('Mortality Rate: ' + str(round(df_deaths_total[-1] / df_confirmed_total[-1] * 100, 3)) + '%',
+                 className="text-center text-death font-md"
+                 )
+
+    ], className="border-div"
+    ), lg={"size": 4, "offset": 0},
+        md={"size": 6, "offset": 0},
+        sm={"size": 8, "offset": 2},
+        xs={"size": 10, "offset": 1},
+        style={"marginBottom": "32px"}
     )
 
     total_recovered = dbc.Col(html.Div([
-        html.H4(children='Total Recovered: ',
-                style={
-                    'textAlign': 'center',
-                    'color': colors['recovered_text'],
-                    'fontWeight':"bold"
-                }
-                ),
-        html.P(f"{df_recovered_total[-1]:,d}",
-               style={
-                   'textAlign': 'center',
-                   'color': colors['recovered_text'],
-                   'fontSize': 30,
-               }
-               ),
-        html.P('Recovery Rate: ' + str(round(df_recovered_total[-1]/df_confirmed_total[-1] * 100, 3)) + '%',
-               style={
-            'textAlign': 'center',
-            'color': colors['recovered_text'],
-        }
-        ),
-    ],
-        style=divBorderStyle
-    ), lg=4, md=6, sm=12, width=12
+        html.Div(children='Total Recovered: ', className="text-center text-recov bold font-md"
+                 ),
+        html.Div(f"{df_recovered_total[-1]:,d}",
+                 className="text-center text-recov font-xl"
+                 ),
+        html.Div('Recovery Rate: ' + str(round(df_recovered_total[-1]/df_confirmed_total[-1] * 100, 3)) + '%',
+                 className="text-center text-recov font-md"
+                 ),
+    ], className="border-div"
+    ), lg={"size": 4, "offset": 0},
+        md={"size": 6, "offset": 0},
+        sm={"size": 8, "offset": 2},
+        xs={"size": 10, "offset": 1},
+        style={"marginBottom": "32px"}
     )
 
-    display = dbc.Row([total_cases, total_deaths, total_recovered], style={
-                      "margin": "24px 0"})
+    display = dbc.Row([total_cases, total_deaths,
+                       total_recovered], className="bottom32")
 
     return display
 
 
-title_application_display = html.H2(children='COVID-19 Global Cases',
-                                    style={
-                                        'textAlign': 'center',
-                                        'color': colors['text'],
-                                        'backgroundColor': colors['background']})
+title_application_display = html.Div(children='COVID-19 Global Cases',
+                                     className="text-white text-center dark font-lg")
 charts_buttons = html.Div(
     [
         dbc.Row([
@@ -939,174 +931,198 @@ def map_scatter_corona(data, zoom, lat_focus, long_focus, title):
 
 
 display_highest = dbc.Row([
+
     dbc.Col([
-        html.P([html.Span('Countries with highest cases: ',
-                          ),
-                html.Br(),
-                html.Span(' + past 24hrs',
-                          style={'color': colors['confirmed_text'],
-                                 'fontWeight': 'bold', 'fontSize': 14, })
-                ],
-               style={
-            'textAlign': 'center',
-            'color': 'rgb(200,200,200)',
-            'fontsize': 12,
-            'backgroundColor': '#3B5998',
-            'borderRadius': '12px',
-            'fontSize': 17,
-        }
-        ),
-        html.P(confirm_cases),
+        html.Div([html.Span('Countries with highest cases: ',
+                            ),
+                  html.Br(),
+                  html.Span(' + past 24hrs',
+                            style={'color': colors['confirmed_text'],
+                                   'fontWeight': 'bold', 'fontSize': 14, })
+                  ], className="text-display text-center bg-display-cases radius12 font-sm padding8"
+                 ),
+        html.Div(confirm_cases),
     ],
-        width=6, lg=3  # className="three columns",
+        # className="three columns",
+        width={"size": 10, "offset": 1}, md={"size": 6, "offset": 0}, lg={"size": 3, "offset": 0}
     ),
 
     dbc.Col([
-            html.P([html.Span('Countries with highest mortality: ',
-                              ),
-                    html.Br(),
-                    html.Span(' + past 24hrs (Mortality Rate)',
-                              style={'color': '#f2786f',
-                                     'fontWeight': 'bold', 'fontSize': 14, })
-                    ],
-                   style={
-                'textAlign': 'center',
-                'color': 'rgb(200,200,200)',
-                'fontsize': 12,
-                'backgroundColor': '#ab2c1a',
-                'borderRadius': '12px',
-                'fontSize': 17, }
-            ),
+            html.Div([html.Span('Countries with highest mortality: ',
+                                ),
+                      html.Br(),
+                      html.Span(' + past 24hrs (Mortality Rate)',
+                                style={'color': '#f2786f',
+                                       'fontWeight': 'bold', 'fontSize': 14, })
+                      ], className="text-display text-center bg-display-deaths radius12 font-sm padding8"
+                     ),
 
-            html.P(deaths_cases),
+            html.Div(deaths_cases),
             ],
-            width=6, lg=3  # className="three columns",
+            # className="three columns",
+            width={"size": 10, "offset": 1}, md={"size": 6, "offset": 0}, lg={"size": 3, "offset": 0}
             ),
 
     dbc.Col([
-        html.P([html.Span('Single day highest cases: ',
-                          ),
-                html.Br(),
-                html.Span(' + past 24hrs',
-                          style={'color': colors['confirmed_text'],
-                                 'fontWeight': 'bold', 'fontSize': 14, })
-                ],
-               style={
-            'textAlign': 'center',
-            'color': 'rgb(200,200,200)',
-            'fontsize': 12,
-            'backgroundColor': '#3B5998',
-            'borderRadius': '12px',
-            'fontSize': 17, }
-        ),
+        html.Div([html.Span('Single day highest cases: ',
+                            ),
+                  html.Br(),
+                  html.Span(' + past 24hrs',
+                            style={'color': colors['confirmed_text'],
+                                   'fontWeight': 'bold', 'fontSize': 14, })
+                  ], className="text-display text-center bg-display-cases radius12 font-sm padding8"
+                 ),
 
-        html.P(confirm_cases_24hrs),
+        html.Div(confirm_cases_24hrs),
     ],
-        width=6, lg=3  # className="three columns",
+        # className="three columns",
+        width={"size": 10, "offset": 1}, md={"size": 6, "offset": 0}, lg={"size": 3, "offset": 0}
     ),
 
     dbc.Col([
 
-            html.P([html.Span('Single day highest mortality: ',
-                              ),
-                    html.Br(),
-                    html.Span(' + past 24hrs (Mortality Rate)',
-                              style={'color': '#f2786f',
-                                     'fontWeight': 'bold', 'fontSize': 14, })
-                    ],
-                   style={
-                'textAlign': 'center',
-                'color': 'rgb(200,200,200)',
-                'fontsize': 12,
-                'backgroundColor': '#ab2c1a',
-                'borderRadius': '12px',
-                'fontSize': 17, }
-            ),
+            html.Div([html.Span('Single day highest mortality: ',
+                                ),
+                      html.Br(),
+                      html.Span(' + past 24hrs (Mortality Rate)',
+                                style={'color': '#f2786f',
+                                       'fontWeight': 'bold', 'fontSize': 14, })
+                      ], className="text-display text-center bg-display-deaths radius12 font-sm padding8"
+                     ),
 
-            html.P(deaths_cases_24hrs),
+            html.Div(deaths_cases_24hrs),
             ],
-            width=6, lg=3  # className="three columns",
+            # className="three columns",
+            width={"size": 10, "offset": 1}, md={"size": 6, "offset": 0}, lg={"size": 3, "offset": 0}
             ),
-], style={
-    'textAlign': 'left',
-    'color': colors['text'],
-    'backgroundColor': colors['background'],
-    'padding': 20}
+], className="left text-white bgGrey padding16",
+    # style={
+    #     'textAlign': 'left',
+    #     'color': colors['text'],
+    #     'backgroundColor': colors['background'],
+    #     'padding': 20}
 )
 
 
 def main_text_structure():
 
-    header = dbc.Col(html.H3(children='Covid-19 (Coronavirus) Interactive Outbreak Tracker',
-                             style={
-                                 'textAlign': 'left',
-                                 'color': colors['text'],
-                                 'backgroundColor': colors['background'],
-                             }),
+    header = dbc.Col(html.Div(children='Covid-19 (Coronavirus) Interactive Outbreak Tracker', className="text-white dark left font-lg bottom16"
+                              ),
                      width=12
                      )
     days_calc = dbc.Col([html.Span('Dashboard: Covid-19 outbreak. (Updated once a day, based on consolidated last day total) Last Updated: ',
-                                   style={'color': colors['text'],
-                                          }),
+                                   className="text-white font-sm"
+                                   ),
                          html.Span(datatime_convert(df_confirmed.columns[-1], 1) + '  00:01 (UTC).',
-                                   style={'color': colors['confirmed_text'],
-                                          'fontWeight': 'bold',
-                                          }),
+                                   className="text-white font-sm"),
                          ], width=12)
 
     outbreak_days = dbc.Col([
         html.Span('Outbreak since 22-Jan-2020: ',
-                  style={'color': colors['text'],
-                         }
+                  className="text-white"
                   ),
         html.Span(str(return_outbreakdays(datatime_convert(df_confirmed.columns[-1], 1))) + '  days.',
-                  style={'color': colors['confirmed_text'],
-                         'fontWeight': 'bold',
-                         })
-    ], width=12
+                  className="text-conf"
+                  )
+    ], width=12, className="bottom32"
     )
 
-    row_app_starting = dbc.Row([header, days_calc, outbreak_days], style={
-                               "width": "90%", "margin": "0 auto"})
+    row_app_starting = dbc.Row([header, days_calc, outbreak_days],
+                               style={"width": "90%", "margin": "0 auto"})
 
     return row_app_starting
 
 
 # Input
 inputs = dbc.FormGroup([
-    html.H4("Select a Country", style={"textAlign": "center"}),
+    html.Div("Select a Country", style={"textAlign": "center"}),
     dcc.Dropdown(id="country", options=[
                  {"label": x, "value": x} for x in data.countrylist], value="World", style={"color": "black"})
 ], style={"width": "90%", "margin": "0 auto", "marginBottom": "32px"})
 
 
 charts = dbc.Row([
-    dbc.Col(
+    dbc.Col([
+        dcc.RadioItems(
+            id='graph-type',
+            options=[{'label': i, 'value': i}
+                     for i in ['Total Cases', 'Daily Cases']],
+            value='Total Cases',
+            labelStyle={'display': 'inline-block',
+                        'padding': "0 12px"},
+            style={
+                'fontSize': 18,
+            },
+
+        ),
         dcc.Loading(
             dcc.Graph(
                 id='global-graph'
-            ), type="graph"), width=12, sm=12, lg=6
+            ), type="graph")], width=12, sm=12, lg=6, style={"marginBottom": "32px"}
     ),
-    dbc.Col(
+    dbc.Col([
+        dcc.RadioItems(
+            id='graph-high10-type',
+            options=[{'label': i, 'value': i}
+                     for i in ['Confirmed Cases', 'Death Cases']],
+            value='Confirmed Cases',
+            labelStyle={'display': 'inline-block',
+                        'padding': "0 12px"},
+            style={
+                'fontSize': 18}
+        ),
         dcc.Loading(
             dcc.Graph(
                 id='high10-graph'
-            ), type="graph"), width=12, sm=12, lg=6
+            ), type="graph")], width=12, sm=12, lg=6, style={"marginBottom": "32px"}
     )
 ])
 
+# html.Div(
+#     [
+#         dbc.Row([
+#             dbc.Col(
+#                 dcc.RadioItems(
+#                     id='graph-type',
+#                     options=[{'label': i, 'value': i}
+#                              for i in ['Total Cases', 'Daily Cases']],
+#                     value='Total Cases',
+#                     labelStyle={'display': 'inline-block',
+#                                 'padding': "0 12px"},
+#                     style={
+#                         'fontSize': 18,
+#                     },
+
+#                 ), width=6),
+#             dbc.Col(
+#                 dcc.RadioItems(
+#                     id='graph-high10-type',
+#                     options=[{'label': i, 'value': i}
+#                              for i in ['Confirmed Cases', 'Death Cases']],
+#                     value='Confirmed Cases',
+#                     labelStyle={'display': 'inline-block',
+#                                 'padding': "0 12px"},
+#                     style={
+#                         'fontSize': 18}
+#                 ), width=6)
+#         ])
+
+#     ], style={"display": None}
+# )
 divBorderStyle_sidebar = {
     'backgroundColor': '#393939',
     'lineHeight': 0.9,
     "width": "248px",
     "zIndex": "999"
+
+
 }
 
 sidebar_header = dbc.Row(
     [
-        dbc.Col(html.H5("Features Panel", style={"paddingLeft": "16px"})
-                # html.Img(src="assets/fundo_transp-b.png", height="35px"), style={"padding":"0 0 0 18px"}
-                ),  # html.H4("Select: ", className="display-4")),
+        # dbc.Col(html.H5("Features Panel", style={"paddingLeft": "16px"})
+        #         # html.Img(src="assets/fundo_transp-b.png", height="35px"), style={"padding":"0 0 0 18px"}
+        #         ),  # html.Div("Select: ", className="display-4")),
         dbc.Col(
             [
                 html.Button(
@@ -1134,7 +1150,7 @@ sidebar_header = dbc.Row(
             ],
             # the column containing the toggle will be only as wide as the
             # toggle, resulting in the toggle being right aligned
-            width="auto",
+            width={"size": 1, "offset": 9},
             # vertically align the toggle in the center
             align="center",
         ),
@@ -1153,7 +1169,7 @@ mensagem = dcc.Markdown('''
                             ## Dataset:
                             * provided by Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE) - https://systems.jhu.edu/
 
-                            ## References and inspirations: 
+                            ## References and inspirations:
                             * aatisibh: https://aatishb.com/covidtrends/
                             * App reference to build this one: https://covid19-dashboard-online.herokuapp.com/
                             * ARticle Reference of the Forecasting: https://towardsdatascience.com/how-to-embed-bootstrap-css-js-in-your-python-dash-app-8d95fc9e599e
@@ -1170,7 +1186,7 @@ sidebar = html.Div(
         html.Div(
             [
                 html.Hr(),
-                html.P(
+                html.Div(
                     "Select the category of information" " you are interested in.",
                     className="lead", style={"fontSize": "18px", "width": "80%", "margin": "0 auto 16px"}
                 ),
@@ -1325,13 +1341,13 @@ custom_graphs = dbc.Row(
             [
                 dcc.Graph(id='line-graph',
                           )
-            ], md=6, width=12
+            ], md=6, width=12, style={"marginBottom": "64px"}
         ),
         dbc.Col(
             [
                 dcc.Graph(id='bar-graph',
                           )
-            ], md=6, width=12
+            ], md=6, width=12, style={"marginBottom": "64px"}
         ),
 
     ], style={
@@ -1342,10 +1358,11 @@ custom_graphs = dbc.Row(
 
 
 app.layout = html.Div([
-    html.Div([sidebar,
-              dbc.Container([
-                  navbar(appname="Corona Virus Monitor",
-                         logo="assets/fundo_transp-b.png", height="40px"),
+    # sidebar,
+    navbar(appname="Corona Virus Monitor",
+           logo="assets/fundo_transp-b.png", height="40px"),
+    dbc.Container([
+
                   # collase_buttons,
                   main_text_structure(),
                   display_main_stats(),
@@ -1354,25 +1371,25 @@ app.layout = html.Div([
                       html.Div(id="main_div"), type="cube")
                   # modal)
 
-              ], style={"maxWidth": "1140px"})
-              ])
+                  ], style={"maxWidth": "1140px"})
+
 ])
 
-charts = dbc.Row([
-    dbc.Col(
-        dcc.Graph(
-            id='global-graph'
-        ), sm=12, width=6, md=6, lg=6
-    ),
-    dbc.Col(
-        dcc.Graph(
-            id='high10-graph'
-        ), sm=12, width=6, md=6, lg=6)
-])
+# charts = dbc.Row([
+#     dbc.Col(
+#         dcc.Graph(
+#             id='global-graph'
+#         ), sm=12, width=12, md=12, lg=6
+#     ),
+#     dbc.Col(
+#         dcc.Graph(
+#             id='high10-graph'
+#         ), sm=12, width=12, md=12, lg=6)
+# ])
 
 forecast = html.Div([
-    dbc.Row(dbc.Col(inputs, width=4, style={
-            "margin": "0 auto", "width": "100%"}), ),
+    dbc.Row(dbc.Col(inputs, width={"size": 10, "offset": 1}, sm={"size": 8, "offset": 2}, md={"size": 6, "offset": 3}, lg={"size": 4, "offset": 4},
+                    style={"margin": "0 auto", "width": "100%"}), ),
     # Body
     dbc.Row([
         # input + panel
@@ -1382,7 +1399,7 @@ forecast = html.Div([
         ], style={"margin": "0 auto 32px", "width": "100%"}),
         # plots
         dbc.Col(md=12, lg=8, children=[
-            dbc.Col(html.H4("Forecast 30 days from today"),
+            dbc.Col(html.Div("Forecast 30 days from today"),
                     style={"width": "100%", "margin": "0 auto"}),
             dbc.Tabs(className="nav nav-pills", children=[
                 dbc.Tab(dcc.Graph(id="plot-total"),
@@ -1416,7 +1433,7 @@ def update_graph(btn_display, btn_distribution, btn_maps, btn_tabs, btn_src):
         return display_highest
 
     if btn_df.idxmax(axis=1).values == "distribution":
-        return [charts_buttons, charts]
+        return [charts]
 
     if btn_df.idxmax(axis=1).values == "maps":
         return forecast
@@ -1598,50 +1615,45 @@ def render_output_panel(country):
 
     panel = html.Div([
 
-                     html.Div([
+        html.Div([
 
-                         html.Div(f"Data for {country}", style={
-                              "fontSize": "21px", "margin": "16px auto", "color": "white", "width": "100%"}),
+            html.Div(f"Data for {country}",
+                     className="text-white font-lg width-full",
+                     style={"margin": "16px auto"}),
 
-                         html.Br(), html.Br(),
-                         html.Div("Total cases until today:",
-                                  style=font_md),
-                         html.Div("{:,.0f}".format(total_cases_until_today),
-                                  style=font_lg),
+            html.Br(), html.Br(),
+            html.Div("Total cases until today:",
+                     className="text-white font-md width-full bottom8",
+                     ),
+            html.Div("{:,.0f}".format(total_cases_until_today),
+                     className="text-white font-lg width-full bottom16"),
 
-                         html.Div("Total cases in 30 days:",
-                                  className="text-danger", style={
-                                      "fontSize": "18px", "marginBottom": "8px",
-                                  }),
-                         html.Div("{:,.0f}".format(total_cases_in_30days),
-                                  className="text-danger", style={
-                             "fontSize": "21px", "marginBottom": "24px",
-                         }),
+            html.Div("Total cases in 30 days:",
+                     className="text-danger font-md width-full bottom8", ),
+            html.Div("{:,.0f}".format(total_cases_in_30days),
+                     className="text-danger font-lg width-full bottom16"),
 
-                         html.Div("Active cases today:", style=font_md),
-                         html.Div("{:,.0f}".format(active_cases_today),
-                                  style=font_lg),
+            html.Div("Active cases today:",
+                     className="text-white font-md width-full bottom8",),
+            html.Div("{:,.0f}".format(active_cases_today),
+                     className="text-white font-lg width-full bottom16"),
 
-                         html.Div("Active cases in 30 days:",
-                                  className="text-danger", style={
-                                      "fontSize": "18px", "marginBottom": "8px",
-                                  }),
-                         html.Div("{:,.0f}".format(active_cases_in_30days),
-                                  className="text-danger", style={
-                                  "fontSize": "21px", "marginBottom": "24px",
-                                  }),
+            html.Div("Active cases in 30 days:",
+                     className="text-danger font-md width-full bottom8"),
+            html.Div("{:,.0f}".format(active_cases_in_30days),
+                     className="text-danger font-lg width-full bottom16"),
 
-                         html.Div("Peak day:", style={"color": peak_color,
-                                                      "fontSize": "18px", "marginBottom": "8px",
-                                                      }),
-                         html.Div(peak_day.strftime("%Y-%m-%d"),
-                                  style=font_lg),
-                         html.Div("with {:,.0f} cases".format(
-                             num_max), style={"color": peak_color,
-                                              "fontSize": "21px", "marginBottom": "8px",
-                                              })
-                     ], style=divBorderStyle)
-                     ])
+            html.Div("Peak day:", style={"color": peak_color,
+                                         "fontSize": "18px", "marginBottom": "8px",
+                                         }),
+            html.Div(peak_day.strftime("%Y-%m-%d"),
+                     style=font_lg),
+            html.Div("with {:,.0f} cases".format(
+                num_max), style={"color": peak_color,
+                                 "fontSize": "21px", "marginBottom": "8px",
+                                 })
+        ], style=divBorderStyle)
+    ])
 
     return panel
 

@@ -101,7 +101,7 @@ class Result():
         # fig.update_xaxes(rangeslider_visible=True)
         # set background color
         fig.update_layout(
-            plot_bgcolor=colors["background"], paper_bgcolor=colors['background'], autosize=True, height=350)
+            plot_bgcolor=colors["background"], paper_bgcolor=colors['background'], autosize=False)
         # add vline
         fig.add_shape({"x0": today, "x1": today, "y0": 0, "y1": self.dtf["delta_forecast"].max(),
                        "type": "line", "line": {"width": 2, "dash": "dot"}})
@@ -130,7 +130,7 @@ class Result():
                 ),
                 bgcolor=colors['background'],
                 borderwidth=5
-            ))
+            ), height=350)
         fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='#3A3A3A')
         fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='#3A3A3A')
 
