@@ -18,6 +18,10 @@ a:hover {
 .width-full {
     width:100%;
 }
+
+#tabs-styled-with-inline .tab.jsx-3201076643 {
+    background-color: #393939;
+}
 /* 
 .font-xl {
     font-size: max(26px, 2vw);
@@ -49,15 +53,15 @@ a:hover {
 }
 
 .font-md {
-    font-size: min(24px, 7vw);
+    font-size: min(25px, 7vw);
 }
 
 .font-sm {
-    font-size: min(15px, 6vw);
+    font-size: min(19px, 5vw);
 }
 
 .font-xs {
-    font-size: min(16px, 2vw);
+    font-size: min(16px, 4vw);
 }
 
 .fitContent {
@@ -77,7 +81,7 @@ a:hover {
     color:rgb(117, 190, 255);
 }
 
-.text-death{
+.text-death {
     color:rgb(225, 116, 108);
 }
 

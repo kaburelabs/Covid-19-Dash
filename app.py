@@ -731,22 +731,23 @@ divBorderStyle_nav = {
 def navbar(logo="/assets/logo-placeholder.png", height="35px",  appname="PlaceHolder Name"):
 
     navbar = dbc.Navbar(
-        [sidebar,
-            dbc.Col(html.A(
-                # Use row and col to control vertical alignment of logo / brand
-                dbc.Row(
-                    [
-                        dbc.Col(
-                            html.Div("trich.ai", className="trich-navbar white", style={"fontSize": "2.5em"}))
-                        # html.Img(src=logo, height=height)),
-                    ],
-                    align="center",
-                    # no_gutters=True,
-                ),
-                href="https://trich.ai",
-            ), width={"offset": 1, "size": 5}),
-            dbc.Col(dbc.NavbarBrand(
-                appname, className="ml-4 font-sm white", style={"color": "white"}), width={"size": 6, "order": "last"}),
+        [dbc.Container(
+            [
+                dbc.Col(html.A(
+                    # Use row and col to control vertical alignment of logo / brand
+
+
+                        html.Div(
+                            "trich.ai", className="trich-navbar white font-lg", ),
+
+
+                        # align="center",
+                        # no_gutters=True,
+
+                        href="https://trich.ai",
+                        ), width=4),
+                dbc.Col(dbc.NavbarBrand(
+                    appname, className="font-sm text-white"), className="text-right", width=8)], style={"maxWidth": "1140px"}),
          ],
         color="#393939", className="bottom32",  # className="bottom16",
         # style={'height': '100px', "borderBottom":".5px solid lightgrey", "padding":"18px 0px"}
@@ -768,10 +769,10 @@ def display_main_stats():
 
     total_cases = dbc.Col(html.Div([
         html.Div(children='Total Cases: ',
-                 className="text-center text-conf bold font-md"
+                 className="text-center text-conf bold font-md bottom16"
                  ),
         html.Div(f"{df_confirmed_total[-1]:,d}",
-                 className="text-center text-conf font-xl"
+                 className="text-center text-conf font-xl bottom16"
                  ),
         html.Div('Increase: +' + f"{df_confirmed_total[-1] - df_confirmed_total[-2]:,d}"
                  + ' (' + str(round(((df_confirmed_total[-1] - df_confirmed_total[-2])/df_confirmed_total[-1])*100, 2)) + '%)',
@@ -792,10 +793,10 @@ def display_main_stats():
     )
 
     total_deaths = dbc.Col(html.Div([
-        html.Div(children='Total Deaths: ', className="text-center text-death bold font-md"
+        html.Div(children='Total Deaths: ', className="text-center text-death bold font-md bottom16"
                  ),
         html.Div(f"{df_deaths_total[-1]:,d}",
-                 className="text-center text-death font-xl"
+                 className="text-center text-death font-xl bottom16"
                  ),
         html.Div('Mortality Rate: ' + str(round(df_deaths_total[-1] / df_confirmed_total[-1] * 100, 3)) + '%',
                  className="text-center text-death font-sm"
@@ -810,10 +811,10 @@ def display_main_stats():
     )
 
     total_recovered = dbc.Col(html.Div([
-        html.Div(children='Total Recovered: ', className="text-center text-recov bold font-md"
+        html.Div(children='Total Recovered: ', className="text-center text-recov bold font-md bottom16"
                  ),
         html.Div(f"{df_recovered_total[-1]:,d}",
-                 className="text-center text-recov font-xl"
+                 className="text-center text-recov font-xl bottom16"
                  ),
         html.Div('Recovery Rate: ' + str(round(df_recovered_total[-1]/df_confirmed_total[-1] * 100, 3)) + '%',
                  className="text-center text-recov font-sm"
@@ -833,7 +834,9 @@ def display_main_stats():
 
 
 title_application_display = html.Div(children='COVID-19 Global Cases',
-                                     className="text-white text-center dark font-lg")
+                                     className="text-white text-center dark font-lg bottom32")
+
+
 charts_buttons = html.Div(
     [
         dbc.Row([
@@ -864,6 +867,8 @@ charts_buttons = html.Div(
         ])
 
     ], style={"display": None}
+
+
 )
 
 
@@ -933,11 +938,11 @@ def map_scatter_corona(data, zoom, lat_focus, long_focus, title):
 display_highest = dbc.Row([
 
     dbc.Col([
-        html.Div([html.Div('Countries with highest cases: ', className="text-white font-sm"
+        html.Div([html.Div('Highest cases: ', className="text-white font-sm"
                            ),
                   html.Div(' + past 24hrs',
-                           className="text-conf bold font-sm")
-                  ], className="text-display text-center bg-display-cases radius12 font-sm padding8"
+                           className="text-conf bold font-xs")
+                  ], className="text-display text-center bg-display-cases radius12 padding8"
                  ),
         html.Div(confirm_cases),
     ],
@@ -946,12 +951,11 @@ display_highest = dbc.Row([
     ),
 
     dbc.Col([
-            html.Div([html.Div('Countries with highest mortality: ',
+            html.Div([html.Div('Highest mortality: ', className="text-white font-sm"
                                ),
                       html.Div(' + past 24hrs (Mortality Rate)',
-                               style={'color': '#f2786f',
-                                      'fontWeight': 'bold', 'fontSize': 14, })
-                      ], className="text-display text-center bg-display-deaths radius12 font-sm padding8"
+                               className="text-death bold font-xs")
+                      ], className="text-display text-center bg-display-deaths radius12 padding8"
                      ),
 
             html.Div(deaths_cases),
@@ -1014,10 +1018,10 @@ def main_text_structure():
 
     outbreak_days = dbc.Col([
         html.Span('Outbreak since 22-Jan-2020: ',
-                  className="text-white"
+                  className="text-white font-xs"
                   ),
         html.Span(str(return_outbreakdays(datatime_convert(df_confirmed.columns[-1], 1))) + '  days.',
-                  className="text-conf"
+                  className="text-conf font-xs"
                   )
     ], width=12, className="bottom32"
     )
@@ -1113,47 +1117,47 @@ divBorderStyle_sidebar = {
 
 }
 
-sidebar_header = dbc.Row(
-    [
-        # dbc.Col(html.H5("Features Panel", style={"paddingLeft": "16px"})
-        #         # html.Img(src="assets/fundo_transp-b.png", height="35px"), style={"padding":"0 0 0 18px"}
-        #         ),  # html.Div("Select: ", className="display-4")),
-        dbc.Col(
-            [
-                html.Button(
-                    # use the Bootstrap navbar-toggler classes to style
-                    html.Span(className="navbar-toggler-icon"),
-                    className="navbar-toggler",
-                    # the navbar-toggler classes don't set color
-                    style={
-                        "color": "rgb (0, 0, 0.1)",
-                        "border-color": "rgb (0, 0, 0.1)",
-                    },
-                    id="navbar-toggle",
-                ),
-                html.Button(
-                    # use the Bootstrap navbar-toggler classes to style
-                    html.Span(className="navbar-toggler-icon"),
-                    className="navbar-toggler",
-                    # the navbar-toggler classes don't set color
-                    style={
-                        "color": "#c9b49e",
-                        "border-color": "#c9b49e",
-                    },
-                    id="sidebar-toggle",
-                ),
-            ],
-            # the column containing the toggle will be only as wide as the
-            # toggle, resulting in the toggle being right aligned
-            width={"size": 1, "offset": 9},
-            # vertically align the toggle in the center
-            align="center",
-        ),
-    ]
-)
+# sidebar_header = dbc.Row(
+#     [
+#         # dbc.Col(html.H5("Features Panel", style={"paddingLeft": "16px"})
+#         #         # html.Img(src="assets/fundo_transp-b.png", height="35px"), style={"padding":"0 0 0 18px"}
+#         #         ),  # html.Div("Select: ", className="display-4")),
+#         dbc.Col(
+#             [
+#                 html.Button(
+#                     # use the Bootstrap navbar-toggler classes to style
+#                     html.Span(className="navbar-toggler-icon"),
+#                     className="navbar-toggler",
+#                     # the navbar-toggler classes don't set color
+#                     style={
+#                         "color": "rgb (0, 0, 0.1)",
+#                         "border-color": "rgb (0, 0, 0.1)",
+#                     },
+#                     id="navbar-toggle",
+#                 ),
+#                 html.Button(
+#                     # use the Bootstrap navbar-toggler classes to style
+#                     html.Span(className="navbar-toggler-icon"),
+#                     className="navbar-toggler",
+#                     # the navbar-toggler classes don't set color
+#                     style={
+#                         "color": "#c9b49e",
+#                         "border-color": "#c9b49e",
+#                     },
+#                     id="sidebar-toggle",
+#                 ),
+#             ],
+#             # the column containing the toggle will be only as wide as the
+#             # toggle, resulting in the toggle being right aligned
+#             width={"size": 1, "offset": 9},
+#             # vertically align the toggle in the center
+#             align="center",
+#         ),
+#     ]
+# )
 
 mensagem = dcc.Markdown('''
-                            ## Technological Stack:
+                            # Technological Stack:
                             * Plotly - https://github.com/plotly/dash
                             * CSS/Boostrap - https://dash-bootstrap-components.opensource.faculty.ai/docs/
                             * pandas - https://pandas.pydata.org/
@@ -1161,10 +1165,10 @@ mensagem = dcc.Markdown('''
                             * Scipy - https://www.scipy.org/
                             * Scikit-learn - https://scikit-learn.org/stable/
 
-                            ## Dataset:
+                            # Dataset:
                             * provided by Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE) - https://systems.jhu.edu/
 
-                            ## References and inspirations:
+                            # References and inspirations:
                             * aatisibh: https://aatishb.com/covidtrends/
                             * App reference to build this one: https://covid19-dashboard-online.herokuapp.com/
                             * ARticle Reference of the Forecasting: https://towardsdatascience.com/how-to-embed-bootstrap-css-js-in-your-python-dash-app-8d95fc9e599e
@@ -1173,44 +1177,44 @@ mensagem = dcc.Markdown('''
                             ''')
 
 
-sidebar = html.Div(
-    [
-        sidebar_header,
-        # we wrap the horizontal rule and short blurb in a div that can be
-        # hidden on a small screen
-        html.Div(
-            [
-                html.Hr(),
-                html.Div(
-                    "Select the category of information" " you are interested in.",
-                    className="lead", style={"fontSize": "18px", "width": "80%", "margin": "0 auto 16px"}
-                ),
-            ],
-            id="blurb",
-        ),
-        # use the Collapse component to animate hiding / revealing links
-        dbc.Collapse(
-            dbc.Nav(
-                [
-                    dbc.Button("Display and Stats", id="btn_display", color="info", style={
-                               "width": "80%", 'margin': '0 auto 16px'}),
-                    dbc.Button("Chart Distribution", id="btn_distribution", color="info",  style={
-                               "width": "80%", 'margin': '0 auto 16px'}),
-                    dbc.Button("Tables & Map", id="btn_tabs", color="info", style={
-                               "width": "80%", 'margin': '0 auto 16px'}),
-                    dbc.Button("Forecasting", id="btn_maps",  color="info", style={
-                               "width": "80%", 'margin': '0 auto 16px'}),
-                    dbc.Button("Sources", id="open", color="info", style={
-                               "width": "80%", 'margin': '0 auto'}),
-                ],
-                vertical=True,
-                pills=False,
-            ),
-            id="collapse",
-        ),
-    ],
-    id="sidebar", style=divBorderStyle_sidebar
-)
+# sidebar = html.Div(
+#     [
+#         sidebar_header,
+#         # we wrap the horizontal rule and short blurb in a div that can be
+#         # hidden on a small screen
+#         html.Div(
+#             [
+#                 html.Hr(),
+#                 html.Div(
+#                     "Select the category of information" " you are interested in.",
+#                     className="lead", style={"fontSize": "18px", "width": "80%", "margin": "0 auto 16px"}
+#                 ),
+#             ],
+#             id="blurb",
+#         ),
+#         # use the Collapse component to animate hiding / revealing links
+#         dbc.Collapse(
+#             dbc.Nav(
+#                 [
+#                     dbc.Button("Display and Stats", id="btn_display", color="info", style={
+#                                "width": "80%", 'margin': '0 auto 16px'}),
+#                     dbc.Button("Chart Distribution", id="btn_distribution", color="info",  style={
+#                                "width": "80%", 'margin': '0 auto 16px'}),
+#                     dbc.Button("Tables & Map", id="btn_tabs", color="info", style={
+#                                "width": "80%", 'margin': '0 auto 16px'}),
+#                     dbc.Button("Forecasting", id="btn_maps",  color="info", style={
+#                                "width": "80%", 'margin': '0 auto 16px'}),
+#                     dbc.Button("Sources", id="open", color="info", style={
+#                                "width": "80%", 'margin': '0 auto'}),
+#                 ],
+#                 vertical=True,
+#                 pills=False,
+#             ),
+#             id="collapse",
+#         ),
+#     ],
+#     id="sidebar", style=divBorderStyle_sidebar
+# )
 
 map_charts_group = dbc.Row([
     dbc.Col(
@@ -1352,19 +1356,54 @@ custom_graphs = dbc.Row(
 )
 
 
+tabs_styles = {
+    # 'height': '44px',
+    'background': '#393939'
+}
+
+tab_style = {
+    'borderBottom': '1px solid #d6d6d6',
+    'padding': '6px',
+    'fontWeight': 'bold'
+}
+
+tab_selected_style = {
+    'borderTop': '1px solid #d6d6d6',
+    'borderBottom': '1px solid #d6d6d6',
+    'backgroundColor': '#119DFF',
+    'color': 'white',
+    'padding': '6px'
+}
+
 app.layout = html.Div([
     # sidebar,
     navbar(appname="Corona Virus Monitor",
            logo="assets/fundo_transp-b.png", height="40px"),
     dbc.Container([
 
+
                   # collase_buttons,
                   main_text_structure(),
                   display_main_stats(),
                   title_application_display,
+                  dbc.Row(
+                      dbc.Col(
+                          dcc.Tabs(id="tabs-styled-with-inline", value='btn_display',
+                                   children=[
+                                       dcc.Tab(label='Display and Stats', value='btn_display',
+                                               style=tab_style, selected_style=tab_selected_style),
+                                       dcc.Tab(label='Chart Distribution', value='btn_distribution',
+                                               style=tab_style, selected_style=tab_selected_style),
+                                       dcc.Tab(label='Tables & Map', value='btn_tabs',
+                                               style=tab_style, selected_style=tab_selected_style),
+                                       dcc.Tab(label='Forecasting', value='btn_maps',
+                                               style=tab_style, selected_style=tab_selected_style),
+                                       dcc.Tab(label='Sources', value='open',
+                                               style=tab_style, selected_style=tab_selected_style),
+                                   ], style=tabs_styles), width={"size": 8, "offset": 2}, md={"size": 6, "offset": 3}, lg={"size": 12, "offset": 0}),
+                      className="bottom32"),
                   dcc.Loading(
-                      html.Div(id="main_div"), type="cube")
-                  # modal)
+                      html.Div(id="main_div", style={"minHeight": "700px"}), type="cube")
 
                   ], style={"maxWidth": "1140px"})
 
@@ -1383,7 +1422,11 @@ app.layout = html.Div([
 # ])
 
 forecast = html.Div([
-    dbc.Row(dbc.Col(inputs, width={"size": 10, "offset": 1}, sm={"size": 8, "offset": 2}, md={"size": 6, "offset": 3}, lg={"size": 4, "offset": 4},
+    dbc.Row(dbc.Col(inputs,
+                    width={"size": 10, "offset": 1},
+                    sm={"size": 8, "offset": 2},
+                    md={"size": 6, "offset": 3},
+                    lg={"size": 4, "offset": 4},
                     style={"margin": "0 auto", "width": "100%"}), ),
     # Body
     dbc.Row([
@@ -1397,9 +1440,9 @@ forecast = html.Div([
             dbc.Col(html.Div("Forecast 30 days from today"),
                     style={"width": "100%", "margin": "0 auto"}),
             dbc.Tabs(className="nav nav-pills", children=[
-                dbc.Tab(dcc.Graph(id="plot-total"),
+                dbc.Tab(dcc.Graph(id="plot-total", style={"height": "100%", "width": "100%"}),
                         label="Total cases"),
-                dbc.Tab(dcc.Graph(id="plot-active"),
+                dbc.Tab(dcc.Graph(id="plot-active", style={"height": "100%", "width": "100%"}),
                         label="Active cases")
             ])
         ])
@@ -1409,35 +1452,23 @@ forecast = html.Div([
 
 @app.callback(
     Output('main_div', 'children'),
-    [Input('btn_display', 'n_clicks_timestamp'),
-     Input('btn_distribution', 'n_clicks_timestamp'),
-     Input('btn_maps', 'n_clicks_timestamp'),
-     Input('btn_tabs', 'n_clicks_timestamp'),
-     Input('open', 'n_clicks_timestamp')])
-def update_graph(btn_display, btn_distribution, btn_maps, btn_tabs, btn_src):
-    print(btn_display, btn_distribution, btn_maps, btn_tabs, btn_src)
+    [Input('tabs-styled-with-inline', 'value')])
+def update_graph(tab_btn):
 
-    btn_df = pd.DataFrame({"display": [btn_display], "distribution": [btn_distribution],
-                           "maps": [btn_maps], "tab": [btn_tabs], "source": [btn_src]})
-
-    btn_df = btn_df.fillna(0)
-
-    print(btn_df.idxmax(axis=1).values)
-
-    if btn_df.idxmax(axis=1).values == "display":
+    if tab_btn == "btn_display":
         return display_highest
 
-    if btn_df.idxmax(axis=1).values == "distribution":
+    if tab_btn == "btn_distribution":
         return [charts]
 
-    if btn_df.idxmax(axis=1).values == "maps":
+    if tab_btn == "btn_maps":
         return forecast
 
-    if btn_df.idxmax(axis=1).values == "tab":
+    if tab_btn == "btn_tabs":
         return html.Div([table_values, custom_graphs])
 
-    if btn_df.idxmax(axis=1).values == "source":
-        return html.Div(mensagem, style={"width": "80%", "margin": "0 auto", "height": "450px"})
+    if tab_btn == "open":
+        return html.Div(mensagem, style={"width": "80%", "margin": "0 auto"})
 
 
 @app.callback(
@@ -1613,40 +1644,38 @@ def render_output_panel(country):
         html.Div([
 
             html.Div(f"Data for {country}",
-                     className="text-white font-lg width-full",
+                     className="text-white font-md width-full",
                      style={"margin": "16px auto"}),
 
             html.Br(), html.Br(),
             html.Div("Total cases until today:",
-                     className="text-white font-md width-full bottom8",
+                     className="text-white font-sm width-full bottom8",
                      ),
             html.Div("{:,.0f}".format(total_cases_until_today),
-                     className="text-white font-lg width-full bottom16"),
+                     className="text-white font-md width-full bottom16"),
 
             html.Div("Total cases in 30 days:",
-                     className="text-danger font-md width-full bottom8", ),
+                     className="text-danger font-sm width-full bottom8", ),
             html.Div("{:,.0f}".format(total_cases_in_30days),
-                     className="text-danger font-lg width-full bottom16"),
+                     className="text-danger font-md width-full bottom16"),
 
             html.Div("Active cases today:",
-                     className="text-white font-md width-full bottom8",),
+                     className="text-white font-sm width-full bottom8",),
             html.Div("{:,.0f}".format(active_cases_today),
-                     className="text-white font-lg width-full bottom16"),
+                     className="text-white font-md width-full bottom16"),
 
             html.Div("Active cases in 30 days:",
-                     className="text-danger font-md width-full bottom8"),
+                     className="text-danger font-sm width-full bottom8"),
             html.Div("{:,.0f}".format(active_cases_in_30days),
-                     className="text-danger font-lg width-full bottom16"),
+                     className="text-danger font-md width-full bottom16"),
 
-            html.Div("Peak day:", style={"color": peak_color,
-                                         "fontSize": "18px", "marginBottom": "8px",
-                                         }),
+            html.Div("Peak day:", className="font-sm bottom8    ",
+                     style={"color": peak_color}),
             html.Div(peak_day.strftime("%Y-%m-%d"),
-                     style=font_lg),
+                     className="font-sm bottom8"),
             html.Div("with {:,.0f} cases".format(
-                num_max), style={"color": peak_color,
-                                 "fontSize": "21px", "marginBottom": "8px",
-                                 })
+                num_max), className="font-sm bottom16", style={"color": peak_color}
+            )
         ], style=divBorderStyle)
     ])
 
