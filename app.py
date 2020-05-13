@@ -746,7 +746,7 @@ def navbar(logo="/assets/logo-placeholder.png", height="35px",  appname="PlaceHo
                 href="https://trich.ai",
             ), width={"offset": 1, "size": 5}),
             dbc.Col(dbc.NavbarBrand(
-                appname, className="ml-4 font-sm white", style={"color": "white"}), width={"size": 6, "offset": 2, "order": "last"}),
+                appname, className="ml-4 font-sm white", style={"color": "white"}), width={"size": 6, "order": "last"}),
          ],
         color="#393939", className="bottom32",  # className="bottom16",
         # style={'height': '100px', "borderBottom":".5px solid lightgrey", "padding":"18px 0px"}
@@ -776,7 +776,7 @@ def display_main_stats():
         html.Div('Increase: +' + f"{df_confirmed_total[-1] - df_confirmed_total[-2]:,d}"
                  + ' (' + str(round(((df_confirmed_total[-1] - df_confirmed_total[-2])/df_confirmed_total[-1])*100, 2)) + '%)',
                  id="total-cases-display",
-                 className="text-center text-conf font-md"
+                 className="text-center text-conf font-sm"
                  ),
         dbc.Tooltip(
             "Increase on the Past 24hrs", style={"fontSize": "15px"},
@@ -798,7 +798,7 @@ def display_main_stats():
                  className="text-center text-death font-xl"
                  ),
         html.Div('Mortality Rate: ' + str(round(df_deaths_total[-1] / df_confirmed_total[-1] * 100, 3)) + '%',
-                 className="text-center text-death font-md"
+                 className="text-center text-death font-sm"
                  )
 
     ], className="border-div"
@@ -816,7 +816,7 @@ def display_main_stats():
                  className="text-center text-recov font-xl"
                  ),
         html.Div('Recovery Rate: ' + str(round(df_recovered_total[-1]/df_confirmed_total[-1] * 100, 3)) + '%',
-                 className="text-center text-recov font-md"
+                 className="text-center text-recov font-sm"
                  ),
     ], className="border-div"
     ), lg={"size": 4, "offset": 0},
@@ -933,67 +933,62 @@ def map_scatter_corona(data, zoom, lat_focus, long_focus, title):
 display_highest = dbc.Row([
 
     dbc.Col([
-        html.Div([html.Span('Countries with highest cases: ',
-                            ),
-                  html.Br(),
-                  html.Span(' + past 24hrs',
-                            style={'color': colors['confirmed_text'],
-                                   'fontWeight': 'bold', 'fontSize': 14, })
+        html.Div([html.Div('Countries with highest cases: ', className="text-white font-sm"
+                           ),
+                  html.Div(' + past 24hrs',
+                           className="text-conf bold font-sm")
                   ], className="text-display text-center bg-display-cases radius12 font-sm padding8"
                  ),
         html.Div(confirm_cases),
     ],
         # className="three columns",
-        width={"size": 10, "offset": 1}, md={"size": 6, "offset": 0}, lg={"size": 3, "offset": 0}
+        width={"size": 12, "offset": 0}, md={"size": 6, "offset": 0}, lg={"size": 3, "offset": 0}
     ),
 
     dbc.Col([
-            html.Div([html.Span('Countries with highest mortality: ',
-                                ),
-                      html.Br(),
-                      html.Span(' + past 24hrs (Mortality Rate)',
-                                style={'color': '#f2786f',
-                                       'fontWeight': 'bold', 'fontSize': 14, })
+            html.Div([html.Div('Countries with highest mortality: ',
+                               ),
+                      html.Div(' + past 24hrs (Mortality Rate)',
+                               style={'color': '#f2786f',
+                                      'fontWeight': 'bold', 'fontSize': 14, })
                       ], className="text-display text-center bg-display-deaths radius12 font-sm padding8"
                      ),
 
             html.Div(deaths_cases),
             ],
             # className="three columns",
-            width={"size": 10, "offset": 1}, md={"size": 6, "offset": 0}, lg={"size": 3, "offset": 0}
+            width={"size": 12, "offset": 0}, md={"size": 6, "offset": 0}, lg={"size": 3, "offset": 0}
             ),
 
     dbc.Col([
-        html.Div([html.Span('Single day highest cases: ',
-                            ),
-                  html.Br(),
-                  html.Span(' + past 24hrs',
-                            style={'color': colors['confirmed_text'],
-                                   'fontWeight': 'bold', 'fontSize': 14, })
+        html.Div([html.Div('Single day highest cases: ',
+                           ),
+                  html.Div(' + past 24hrs',
+                           style={'color': colors['confirmed_text'],
+                                  'fontWeight': 'bold', 'fontSize': 14, })
                   ], className="text-display text-center bg-display-cases radius12 font-sm padding8"
                  ),
 
         html.Div(confirm_cases_24hrs),
     ],
         # className="three columns",
-        width={"size": 10, "offset": 1}, md={"size": 6, "offset": 0}, lg={"size": 3, "offset": 0}
+        width={"size": 12, "offset": 0}, md={"size": 6, "offset": 0}, lg={"size": 3, "offset": 0}
     ),
 
     dbc.Col([
 
-            html.Div([html.Span('Single day highest mortality: ',
-                                ),
-                      html.Br(),
-                      html.Span(' + past 24hrs (Mortality Rate)',
-                                style={'color': '#f2786f',
-                                       'fontWeight': 'bold', 'fontSize': 14, })
+            html.Div([html.Div('Single day highest mortality: ',
+                               ),
+                      html.Div(' + past 24hrs (Mortality Rate)',
+                               style={'color': '#f2786f',
+                                      'fontWeight': 'bold', 'fontSize': 14, })
                       ], className="text-display text-center bg-display-deaths radius12 font-sm padding8"
                      ),
 
             html.Div(deaths_cases_24hrs),
             ],
             # className="three columns",
-            width={"size": 10, "offset": 1}, md={"size": 6, "offset": 0}, lg={"size": 3, "offset": 0}
+            width={"size": 12, "offset": 0}, md={"size": 6, "offset": 0}, lg={"size": 3, "offset": 0}
             ),
 ], className="left text-white bgGrey padding16",
     # style={

@@ -18,25 +18,46 @@ a:hover {
 .width-full {
     width:100%;
 }
-
+/* 
 .font-xl {
-    font-size: max(30px, 2vw);
+    font-size: max(26px, 2vw);
 }
 
 .font-lg {
-    font-size: max(26px, 1.5vw);
+    font-size: max(22px, 1.5vw);
 }
 
 .font-md {
-    font-size: max(21px, 1.3vw);
+    font-size: max(18px, 1.3vw);
 }
 
 .font-sm {
-    font-size: max(16px, 1.1vw);
+    font-size: max(15px, 1.1vw);
 }
 
 .font-xs {
     font-size: max(14px, 1vw);
+} */
+
+
+.font-xl {
+    font-size: min(35px, 8vw);
+}
+
+.font-lg {
+    font-size: min(32px, 7vw);
+}
+
+.font-md {
+    font-size: min(24px, 7vw);
+}
+
+.font-sm {
+    font-size: min(15px, 6vw);
+}
+
+.font-xs {
+    font-size: min(16px, 2vw);
 }
 
 .fitContent {
