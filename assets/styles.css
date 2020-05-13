@@ -45,7 +45,7 @@ a:hover {
 
 
 .font-xl {
-    font-size: min(35px, 8vw);
+    font-size: min(32px, 8vw);
 }
 
 .font-lg {
@@ -53,7 +53,7 @@ a:hover {
 }
 
 .font-md {
-    font-size: min(25px, 7vw);
+    font-size: min(25px, 6vw);
 }
 
 .font-sm {
@@ -173,37 +173,7 @@ a:hover {
    font-size: max(25px, 5vw)
 }
 
-/* typography */
-/* 
-.title {
-    font-size: 40px;
-    line-height: 44px;
-}
 
-.font-xl {
-    font-size: 26px;
-    line-height: 30px;
-}
-
-.font-lg {
-    font-size: 22px;
-    line-height: 26px;
-}
-
-/* .font-md {
-    font-size: 22px;fo
-    line-height: 26px;
-} */
-
-/* .font-md {
-    font-size: 18px;
-    line-height: 22px;
-}
-
-.font-sm {
-    font-size: 15px;
-    line-height: 20px;
-} */ */
 
 .bold {
     font-weight: bold;

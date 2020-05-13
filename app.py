@@ -938,42 +938,41 @@ def map_scatter_corona(data, zoom, lat_focus, long_focus, title):
 display_highest = dbc.Row([
 
     dbc.Col([
-        html.Div([html.Div('Highest cases: ', className="text-white font-sm"
+        html.Div([html.Div('Highest cases: ', className="text-white font-sm bottom8"
                            ),
                   html.Div(' + past 24hrs',
                            className="text-conf bold font-xs")
                   ], className="text-display text-center bg-display-cases radius12 padding8"
                  ),
-        html.Div(confirm_cases),
+        html.Div(confirm_cases, className="bottom16"),
     ],
         # className="three columns",
         width={"size": 12, "offset": 0}, md={"size": 6, "offset": 0}, lg={"size": 3, "offset": 0}
     ),
 
     dbc.Col([
-            html.Div([html.Div('Highest mortality: ', className="text-white font-sm"
+            html.Div([html.Div('Highest mortality: ', className="text-white font-sm bottom8"
                                ),
                       html.Div(' + past 24hrs (Mortality Rate)',
                                className="text-death bold font-xs")
                       ], className="text-display text-center bg-display-deaths radius12 padding8"
                      ),
 
-            html.Div(deaths_cases),
+            html.Div(deaths_cases, className="bottom16"),
             ],
             # className="three columns",
             width={"size": 12, "offset": 0}, md={"size": 6, "offset": 0}, lg={"size": 3, "offset": 0}
             ),
 
     dbc.Col([
-        html.Div([html.Div('Single day highest cases: ',
+        html.Div([html.Div('Single day highest cases: ', className="text-white font-sm bottom8"
                            ),
                   html.Div(' + past 24hrs',
-                           style={'color': colors['confirmed_text'],
-                                  'fontWeight': 'bold', 'fontSize': 14, })
+                           className="text-conf bold font-xs")
                   ], className="text-display text-center bg-display-cases radius12 font-sm padding8"
                  ),
 
-        html.Div(confirm_cases_24hrs),
+        html.Div(confirm_cases_24hrs, className="bottom16"),
     ],
         # className="three columns",
         width={"size": 12, "offset": 0}, md={"size": 6, "offset": 0}, lg={"size": 3, "offset": 0}
@@ -981,15 +980,14 @@ display_highest = dbc.Row([
 
     dbc.Col([
 
-            html.Div([html.Div('Single day highest mortality: ',
+            html.Div([html.Div('Single day highest mortality: ', className="text-white font-sm bottom8"
                                ),
                       html.Div(' + past 24hrs (Mortality Rate)',
-                               style={'color': '#f2786f',
-                                      'fontWeight': 'bold', 'fontSize': 14, })
+                               className="text-death bold font-xs")
                       ], className="text-display text-center bg-display-deaths radius12 font-sm padding8"
                      ),
 
-            html.Div(deaths_cases_24hrs),
+            html.Div(deaths_cases_24hrs, className="bottom16"),
             ],
             # className="three columns",
             width={"size": 12, "offset": 0}, md={"size": 6, "offset": 0}, lg={"size": 3, "offset": 0}
@@ -1398,12 +1396,18 @@ app.layout = html.Div([
                                                style=tab_style, selected_style=tab_selected_style),
                                        dcc.Tab(label='Forecasting', value='btn_maps',
                                                style=tab_style, selected_style=tab_selected_style),
-                                       dcc.Tab(label='Sources', value='open',
+                                       dcc.Tab(label='Sources', value='sources',
                                                style=tab_style, selected_style=tab_selected_style),
-                                   ], style=tabs_styles), width={"size": 8, "offset": 2}, md={"size": 6, "offset": 3}, lg={"size": 12, "offset": 0}),
+                                   ], style=tabs_styles),
+                          width={"size": 8, "offset": 2},
+                          md={"size": 6, "offset": 3},
+                          lg={"size": 12, "offset": 0}),
                       className="bottom32"),
-                  dcc.Loading(
-                      html.Div(id="main_div", style={"minHeight": "700px"}), type="cube")
+                  html.Div(
+                      dcc.Loading(
+                          html.Div(id="main_div"), type="cube",
+                          style={"height": "150px", "margin": "auto 0"}),
+                      style={"minHeight": "500px"})
 
                   ], style={"maxWidth": "1140px"})
 
@@ -1467,7 +1471,7 @@ def update_graph(tab_btn):
     if tab_btn == "btn_tabs":
         return html.Div([table_values, custom_graphs])
 
-    if tab_btn == "open":
+    if tab_btn == "sources":
         return html.Div(mensagem, style={"width": "80%", "margin": "0 auto"})
 
 
@@ -1613,19 +1617,6 @@ divBorderStyle = {
 
 }
 
-font_xl = {
-    "fontSize": "24px", "marginBottom": "16px", "color": "white"
-}
-
-
-font_lg = {
-    "fontSize": "21px", "marginBottom": "24px", "color": "white"
-}
-
-font_md = {
-    "fontSize": "18px", "marginBottom": "8px", "color": "white"
-}
-
 
 # Python function to render output panel
 @app.callback(output=Output("output-panel", "children"),
@@ -1669,7 +1660,7 @@ def render_output_panel(country):
             html.Div("{:,.0f}".format(active_cases_in_30days),
                      className="text-danger font-md width-full bottom16"),
 
-            html.Div("Peak day:", className="font-sm bottom8    ",
+            html.Div("Peak day:", className="font-sm bottom8",
                      style={"color": peak_color}),
             html.Div(peak_day.strftime("%Y-%m-%d"),
                      className="font-sm bottom8"),
