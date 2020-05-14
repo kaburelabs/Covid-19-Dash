@@ -43,25 +43,30 @@ a:hover {
     font-size: max(14px, 1vw);
 } */
 
+.absolute_center {
+    position: absolute;
+    top: 50%; right: 50%;
+    transform: translate(50%,-50%);
+}
 
 .font-xl {
     font-size: min(32px, 8vw);
 }
 
 .font-lg {
-    font-size: min(32px, 7vw);
+    font-size: min(28px, 7vw);
 }
 
 .font-md {
-    font-size: min(25px, 6vw);
+    font-size: min(24px, 6vw);
 }
 
 .font-sm {
-    font-size: min(19px, 5vw);
+    font-size: min(20px, 5vw);
 }
 
 .font-xs {
-    font-size: min(16px, 4vw);
+    font-size: min(15px, 4vw);
 }
 
 .fitContent {

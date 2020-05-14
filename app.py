@@ -738,7 +738,7 @@ def navbar(logo="/assets/logo-placeholder.png", height="35px",  appname="PlaceHo
 
 
                         html.Div(
-                            "trich.ai", className="trich-navbar white font-lg", ),
+                            "trich.ai", className="trich-navbar white font-xl", ),
 
 
                         # align="center",
@@ -1400,13 +1400,13 @@ app.layout = html.Div([
                                                style=tab_style, selected_style=tab_selected_style),
                                    ], style=tabs_styles),
                           width={"size": 8, "offset": 2},
-                          md={"size": 6, "offset": 3},
+                          md={"size": 10, "offset": 1},
                           lg={"size": 12, "offset": 0}),
                       className="bottom32"),
                   html.Div(
                       dcc.Loading(
-                          html.Div(id="main_div"), type="cube",
-                          style={"height": "150px", "margin": "auto 0"}),
+                          html.Div(id="main_div"),
+                          type="cube", style={"marginTop": "150px"}),
                       style={"minHeight": "500px"})
 
                   ], style={"maxWidth": "1140px"})
@@ -1435,7 +1435,7 @@ forecast = html.Div([
     # Body
     dbc.Row([
         # input + panel
-        dbc.Col(md=5, lg=4, children=[
+        dbc.Col(md=8, lg=4, children=[
             # html.Br(), html.Br(), html.Br(),
             html.Div(id="output-panel")
         ], style={"margin": "0 auto 32px", "width": "100%"}),
