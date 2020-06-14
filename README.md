@@ -1,6 +1,6 @@
 ### Access the web app on: https://trich-coronavirus.herokuapp.com/
 
-# Covid19 Dashboard Web App using Python (Plotly Dash)
+# Dashboard Web App using Python(Dash Plotly) with a Prediction system
 Create your own dashboard web app with free resources using python only
 All tools stated here are free.
 
@@ -8,8 +8,8 @@ All tools stated here are free.
 https://systems.jhu.edu/
 
 ### Prerequisite:
-* Basic python - numpy, pandas, matplotlib, [plotly dash](https://dash.plotly.com/)
-* Basic knowledge of creating python virtual environment. Recommended using [pyenv](https://github.com/pyenv/pyenv) or [Anaconda](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html)
+* You can get all dependencies in `requirements.txt`
+* I'm using python venv to create the virtual enviroments, but you can choose for the better for you. 
 
 ### Tools:
 * [VS Code](https://code.visualstudio.com/download)
