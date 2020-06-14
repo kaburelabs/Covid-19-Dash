@@ -16,7 +16,7 @@ https://systems.jhu.edu/
 * Python packages required as stated in `requirements.txt`
 * Sign up [Heroku](https://www.heroku.com/) and [Mapbox](https://www.mapbox.com/)
 
-## Version 1.0 Dashboard (Source Code - `covid19.py` included)
+## Version 1.0 Dashboard (Source Code - `app.py` included)
 Comments are included in the source code `covid19.py` to assist you.  
 **Click [here](https://trich-coronavirus.herokuapp.com/) to access the web app**  
 
