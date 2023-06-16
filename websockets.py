@@ -7,14 +7,16 @@ from flask_socketio import SocketIO
 
 app = dash.Dash(__name__)
 server = app.server
-server.config['SECRET_KEY'] = 'secret!'
+server.config["SECRET_KEY"] = "secret!"
 socketio = SocketIO(server)
 
-@socketio.on('welcome')
+
+@socketio.on("welcome")
 def handle_message(message):
     print(str(message))
 
-app.index_string = '''
+
+app.index_string = """
 <!DOCTYPE html>
 <html>
     <head>
@@ -46,28 +48,28 @@ app.index_string = '''
         </footer>
     </body>
 </html>
-'''
+"""
 
-app.layout = html.Div([
-    'Hello!',
-    html.Button('Click me', id='trigger'),
-    html.H1('', id='finish')
-])
+app.layout = html.Div(
+    ["Hello!", html.Button("Click me", id="trigger"), html.H1("", id="finish")]
+)
 
 
 @app.callback(
-    dash.dependencies.Output('finish', 'children'),
-    [dash.dependencies.Input('trigger', 'n_clicks')])
+    dash.dependencies.Output("finish", "children"),
+    [dash.dependencies.Input("trigger", "n_clicks")],
+)
 def countdown(click):
-    
+
     if not click:
         raise dash.exceptions.PreventUpdate()
-    
+
     for i in range(10):
-        socketio.emit('update', i)
+        socketio.emit("update", i)
         time.sleep(0.3)
-    
+
     return click
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     app.run_server(debug=True)

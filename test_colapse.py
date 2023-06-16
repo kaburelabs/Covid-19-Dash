@@ -44,9 +44,7 @@ submenu_1 = [
         dbc.Row(
             [
                 dbc.Col("Menu 1"),
-                dbc.Col(
-                    html.I(className="fas fa-chevron-right mr-3"), width="auto"
-                ),
+                dbc.Col(html.I(className="fas fa-chevron-right mr-3"), width="auto"),
             ],
             className="my-1",
         ),
@@ -67,9 +65,7 @@ submenu_2 = [
         dbc.Row(
             [
                 dbc.Col("Menu 2"),
-                dbc.Col(
-                    html.I(className="fas fa-chevron-right mr-3"), width="auto"
-                ),
+                dbc.Col(html.I(className="fas fa-chevron-right mr-3"), width="auto"),
             ],
             className="my-1",
         ),
@@ -89,9 +85,7 @@ sidebar = html.Div(
     [
         html.H2("Sidebar", className="display-4"),
         html.Hr(),
-        html.P(
-            "A sidebar with collapsible navigation links", className="lead"
-        ),
+        html.P("A sidebar with collapsible navigation links", className="lead"),
         dbc.Nav(submenu_1 + submenu_2, vertical=True),
     ],
     style=SIDEBAR_STYLE,

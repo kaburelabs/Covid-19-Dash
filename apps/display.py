@@ -14,22 +14,23 @@ import dash_admin_components as dac
 from dash.exceptions import PreventUpdate
 
 
-
-app.layout = html.Div([
-
-    #dcc.Location(id="url"),
-
-    dbc.Container([
-        navbar(appname="Corona Virus Monitor", logo="assets/fundo_transp-b.png", height="45px"),
-
-        sidebar,        
-        #collase_buttons,
-        display_main_stats(),
-        html.Div(id="main_div"),
-        charts_buttons,
-        charts
-        
-
-    ])
-
-])
+app.layout = html.Div(
+    [
+        # dcc.Location(id="url"),
+        dbc.Container(
+            [
+                navbar(
+                    appname="Corona Virus Monitor",
+                    logo="assets/fundo_transp-b.png",
+                    height="45px",
+                ),
+                sidebar,
+                # collase_buttons,
+                display_main_stats(),
+                html.Div(id="main_div"),
+                charts_buttons,
+                charts,
+            ]
+        )
+    ]
+)
