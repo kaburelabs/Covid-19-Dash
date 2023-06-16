@@ -1266,7 +1266,8 @@ display_highest = dbc.Row(
             lg={"size": 3, "offset": 0},
         ),
     ],
-    className="left text-white bgGrey padding16",
+    className="left text-white bgGrey padding16 width-100",
+    
     # style={
     #     'textAlign': 'left',
     #     'color': colors['text'],
@@ -1312,7 +1313,7 @@ def main_text_structure():
     )
 
     row_app_starting = dbc.Row(
-        [header, days_calc, outbreak_days], style={"width": "90%", "margin": "0 auto"}
+        [header, days_calc, outbreak_days], style={ "margin": "0 auto"}
     )
 
     return row_app_starting
@@ -1699,7 +1700,7 @@ app.layout = html.Div(
             logo="assets/fundo_transp-b.png",
             height="40px",
         ),
-        dbc.Container(
+        html.Div(
             [
                 # collase_buttons,
                 main_text_structure(),
@@ -1759,7 +1760,7 @@ app.layout = html.Div(
                     style={"minHeight": "500px"},
                 ),
             ],
-            style={"maxWidth": "1140px"},
+            style={"maxWidth": "1360px", "margin": "0 auto"},
         ),
     ]
 )

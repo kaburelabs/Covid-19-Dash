@@ -325,10 +325,6 @@ a:hover {
     justify-content: space-between;
 }
 
-.bottom8 {
-    margin-bottom: 8px;
-}
-
-.bottom16 {
-    margin-bottom: 16px;
+.width-100 {
+    width: 100%;
 }
