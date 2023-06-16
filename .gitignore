@@ -6,3 +6,4 @@ venv
 *.ipynb
 .venv
 .vscode
+venv
